@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchToken, fetchUserData } from "../../actions/user.actions";
 import { useNavigate } from "react-router-dom";
@@ -6,8 +6,13 @@ import { useNavigate } from "react-router-dom";
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const form = useRef();
   const rememberMe = JSON.parse(localStorage.getItem("rememberMe"));
+
+  // Manage form data using useState
+  const [email, setEmail] = useState(rememberMe ? rememberMe.email : "");
+  const [password, setPassword] = useState(
+    rememberMe ? rememberMe.password : ""
+  );
   const [isChecked, setIsChecked] = useState(false);
   const [error, setError] = useState(false);
 
@@ -15,31 +20,38 @@ const SignIn = () => {
     if (rememberMe) {
       setIsChecked(true);
     }
-  }, []);
+  }, [rememberMe]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const postData = {
-      email: form.current[0].value,
-      password: form.current[1].value,
+      email,
+      password,
     };
-    console.log("Post data being sent to the server:", postData);
 
-    if (form.current[2].checked) {
+    // Handle saving to localStorage if "Remember Me" is checked
+    if (isChecked) {
       localStorage.setItem("rememberMe", JSON.stringify(postData));
     } else {
       localStorage.removeItem("rememberMe");
     }
+
+    // Dispatch the login action and handle token
     dispatch(fetchToken(postData))
       .then((token) => {
-        dispatch(fetchUserData(token)).then(() => {
-          navigate("/user");
-        });
+        if (token) {
+          return dispatch(fetchUserData(token));
+        } else {
+          throw new Error("Token non valido");
+        }
+      })
+      .then(() => {
+        navigate("/user");
       })
       .catch((error) => {
-        console.log(error.response.status);
-        throw error.message;
+        console.log("Request failed:", error);
+        setError(true);
       });
   };
 
@@ -48,13 +60,14 @@ const SignIn = () => {
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <form ref={form} onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
             <input
               type="text"
               id="username"
-              defaultValue={rememberMe ? rememberMe.email : ""}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="input-wrapper">
@@ -62,7 +75,8 @@ const SignIn = () => {
             <input
               type="password"
               id="password"
-              defaultValue={rememberMe ? rememberMe.password : ""}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="input-remember">

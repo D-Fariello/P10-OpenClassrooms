@@ -1,6 +1,6 @@
 import { FETCH_TOKEN, FETCH_USER_DATA } from "../actions/user.actions";
 
-const initialState = {};
+const initialState = { token: null, user: null };
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {

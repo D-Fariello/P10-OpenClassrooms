@@ -20,7 +20,7 @@ export const fetchToken = (postData) => {
 export const fetchUserData = (token) => {
   return (dispatch) => {
     return axios
-      .post("http://localhost:3001/api/v1/user/profile", null, {
+      .get("http://localhost:3001/api/v1/user/profile", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
