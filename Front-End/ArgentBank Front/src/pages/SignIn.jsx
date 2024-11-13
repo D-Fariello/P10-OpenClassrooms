@@ -1,15 +1,34 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchToken } from "../../actions/user.actions";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const credentials = { username, password };
+
+    dispatch(fetchToken(credentials))
+      .then((token) => {
+        navigate("/user");
+      })
+      .catch((error) => {
+        console.error("Login Failed:", error);
+      });
+  };
 
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
             <input
