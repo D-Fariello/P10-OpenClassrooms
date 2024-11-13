@@ -3,10 +3,10 @@ import axios from "axios";
 export const FETCH_TOKEN = "FETCH_TOKEN";
 export const FETCH_USER_DATA = "FETCH_USER_DATA";
 
-export const fetchToken = (fetchdata) => {
+export const fetchToken = (postData) => {
   return (dispatch) => {
     return axios
-      .post("http://localhost:3001/api/v1/user/login", fetchdata)
+      .post("http://localhost:3001/api/v1/user/login", postData)
       .then((response) => {
         dispatch({
           type: FETCH_TOKEN,
