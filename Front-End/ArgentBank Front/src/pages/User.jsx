@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 export function User() {
   const user = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
-  const form = useRef(null);
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
@@ -19,7 +18,7 @@ export function User() {
       setIsConnected(false);
       navigate("/sign-in");
     }
-  }, []);
+  }, [user, navigate]);
 
   return (
     isConnected && (

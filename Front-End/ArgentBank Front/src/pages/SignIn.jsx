@@ -13,14 +13,20 @@ const SignIn = () => {
   const [password, setPassword] = useState(
     rememberMe ? rememberMe.password : ""
   );
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(rememberMe ? true : false);
   const [error, setError] = useState(false);
 
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
+
   useEffect(() => {
-    if (rememberMe) {
-      setIsChecked(true);
+    if (isChecked) {
+      localStorage.setItem("rememberMe", JSON.stringify({ email, password }));
+    } else {
+      localStorage.removeItem("rememberMe");
     }
-  }, [rememberMe]);
+  }, [isChecked, email, password]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -84,7 +90,7 @@ const SignIn = () => {
               type="checkbox"
               id="remember-me"
               checked={isChecked}
-              onChange={(e) => setIsChecked(e.target.checked)}
+              onChange={handleCheckboxChange}
             />
             <label htmlFor="remember-me">Remember me</label>
           </div>
