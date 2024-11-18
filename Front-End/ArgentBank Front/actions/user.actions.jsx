@@ -56,6 +56,8 @@ export const editUserName = (postData, token) => {
           payload: updatedUser, // Dispatch updated user data
         });
 
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+
         // Return updated user data for local state sync
         return updatedUser;
       })

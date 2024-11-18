@@ -15,6 +15,12 @@ const UserGreeting = ({ user }) => {
     }
   }, [user]);
 
+  const handleEditButtonClick = () => {
+    setEditButton(true);
+    setFirstName("");
+    setLastName("");
+  };
+
   const handleEditName = (e) => {
     e.preventDefault();
     const postData = {
@@ -33,6 +39,12 @@ const UserGreeting = ({ user }) => {
     });
     console.log("Name updated successfully!");
 
+    setEditButton(false);
+  };
+
+  const handleCancelEdit = () => {
+    setFirstName(user.user.body.firstName);
+    setLastName(user.user.body.lastName);
     setEditButton(false);
   };
 
@@ -68,14 +80,14 @@ const UserGreeting = ({ user }) => {
             <button
               className="button-cancel"
               type="button"
-              onClick={() => setEditButton(false)}
+              onClick={handleCancelEdit}
             >
               Cancel
             </button>
           </div>
         </form>
       ) : (
-        <button className="edit-button" onClick={() => setEditButton(true)}>
+        <button className="edit-button" onClick={handleEditButtonClick}>
           Edit Name
         </button>
       )}
