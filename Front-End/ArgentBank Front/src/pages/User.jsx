@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export function User() {
   const user = useSelector((state) => state.userReducer);
+  console.log("Loaded user from Redux store:", user);
   const navigate = useNavigate();
   const [isConnected, setIsConnected] = useState(false);
 
@@ -23,9 +24,7 @@ export function User() {
   return (
     isConnected && (
       <main className="main bg-dark">
-        <UserGreeting
-          userName={user.user.body.firstName + " " + user.user.body.lastName}
-        />
+        <UserGreeting user={user} />
         <h2 className="sr-only">Accounts</h2>
         <AccountSection
           accountTitle="Argent Bank Checking (x8349)"
