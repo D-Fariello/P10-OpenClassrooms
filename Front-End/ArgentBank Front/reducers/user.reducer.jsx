@@ -1,4 +1,8 @@
-import { FETCH_TOKEN, FETCH_USER_DATA } from "../actions/user.actions";
+import {
+  FETCH_TOKEN,
+  FETCH_USER_DATA,
+  EDIT_USER_NAME,
+} from "../actions/user.actions";
 
 const initialState = {
   token: localStorage.getItem("token") || null, // Load from localStorage
@@ -15,6 +19,11 @@ export default function userReducer(state = initialState, action) {
       };
     case FETCH_USER_DATA:
       localStorage.setItem("user", JSON.stringify(action.payload));
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case EDIT_USER_NAME:
       return {
         ...state,
         user: action.payload,

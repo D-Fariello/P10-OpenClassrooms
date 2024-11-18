@@ -218,6 +218,52 @@ div#root {
   font-size: 1.2rem;
 }
 
+.form-edit-name{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.input-first-name {
+  padding: 0.5rem;
+  margin: 5px;
+}
+
+.input-last-name {
+  padding: 0.5rem;
+  margin: 5px;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  gap: 15px;
+}
+
+.button-save {
+  padding: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+}
+
+.button-cancel {
+    padding: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    border-color: rgba(246, 59, 59, 0.517);
+    background-color: rgba(246, 59, 59, 0.517);
+    color: #fff;
+}
+
+
 .footer {
   display: flex;
   justify-content: center;

@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const FETCH_TOKEN = "FETCH_TOKEN";
 export const FETCH_USER_DATA = "FETCH_USER_DATA";
+export const EDIT_USER_NAME = "EDIT_USER_NAME";
 
 export const fetchToken = (postData) => {
   return (dispatch) => {
@@ -28,6 +29,27 @@ export const fetchUserData = (token) => {
       .then((response) => {
         dispatch({
           type: FETCH_USER_DATA,
+          payload: response.data,
+        });
+        return response.data;
+      })
+      .catch((error) => {
+        throw error.message;
+      });
+  };
+};
+
+export const editUserName = (postData, token) => {
+  return (dispatch) => {
+    return axios
+      .put("http://localhost:3001/api/v1/user/profile", postData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: EDIT_USER_NAME,
           payload: response.data,
         });
         return response.data;
