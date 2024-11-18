@@ -24,7 +24,7 @@ export default function userReducer(state = initialState, action) {
         user: action.payload,
       };
     case EDIT_USER_NAME:
-      console.log("Reducer: updating user with payload:", action.payload);
+      localStorage.setItem("user", JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,

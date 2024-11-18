@@ -48,10 +48,9 @@ export const editUserName = (postData, token) => {
         },
       })
       .then((response) => {
-        console.log("Server response:", response.data);
         dispatch({
           type: EDIT_USER_NAME,
-          payload: response.data.body, // Aggiorna con i dati restituiti
+          payload: response.data.body,
         });
       });
   };

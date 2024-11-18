@@ -10,13 +10,12 @@ import { fetchUserData } from "../../actions/user.actions";
 export function User() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer);
-  console.log("Loaded user from Redux store:", user);
+
   const navigate = useNavigate();
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     if (user.token) {
-      console.log("Fetching user data...");
       dispatch(fetchUserData(user.token));
     }
   }, [dispatch, user.token]);
