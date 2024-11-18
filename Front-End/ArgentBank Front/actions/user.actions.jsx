@@ -48,22 +48,11 @@ export const editUserName = (postData, token) => {
         },
       })
       .then((response) => {
-        const updatedUser = response.data.body;
-
-        // Dispatch updated user data to Redux
+        console.log("Server response:", response.data);
         dispatch({
           type: EDIT_USER_NAME,
-          payload: updatedUser, // Dispatch updated user data
+          payload: response.data.body, // Aggiorna con i dati restituiti
         });
-
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-
-        // Return updated user data for local state sync
-        return updatedUser;
-      })
-      .catch((error) => {
-        console.error("Error updating user name:", error);
-        throw error;
       });
   };
 };
