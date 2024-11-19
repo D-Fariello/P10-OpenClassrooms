@@ -2,6 +2,7 @@ import {
   FETCH_TOKEN,
   FETCH_USER_DATA,
   EDIT_USER_NAME,
+  LOGOUT_USER,
 } from "../actions/user.actions";
 
 const initialState = {
@@ -28,6 +29,12 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         user: action.payload,
+      };
+    case LOGOUT_USER:
+      return {
+        ...state,
+        user: null,
+        token: null,
       };
     default:
       return state;

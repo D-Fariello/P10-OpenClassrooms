@@ -3,6 +3,7 @@ import axios from "axios";
 export const FETCH_TOKEN = "FETCH_TOKEN";
 export const FETCH_USER_DATA = "FETCH_USER_DATA";
 export const EDIT_USER_NAME = "EDIT_USER_NAME";
+export const LOGOUT_USER = "LOGOUT_USER";
 
 export const fetchToken = (postData) => {
   return (dispatch) => {
@@ -53,5 +54,11 @@ export const editUserName = (postData, token) => {
           payload: response.data.body,
         });
       });
+  };
+};
+
+export const logoutUser = () => {
+  return {
+    type: "LOGOUT_USER",
   };
 };
