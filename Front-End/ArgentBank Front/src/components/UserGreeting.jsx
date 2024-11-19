@@ -1,31 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editUserName } from "../../actions/user.actions";
 
-const UserGreeting = ({ user }) => {
+const UserGreeting = () => {
+  const user = useSelector((state) => state.userReducer);
+  console.log(user);
   const [editButton, setEditButton] = useState(false);
-  const [firstName, setFirstName] = useState(user?.user?.body?.firstName || "");
-  const [lastName, setLastName] = useState(user?.user?.body?.lastName || "");
+  const [userName, setUserName] = useState(user?.user?.body?.userName);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user?.user?.body?.firstName && user?.user?.body?.lastName) {
-      setFirstName(user?.user?.body?.firstName);
-      setLastName(user?.user?.body?.lastName);
+    if (user?.user?.body?.userName && user?.user?.body?.userName !== userName) {
+      setUserName(user?.user?.body?.userName);
     }
   }, [user]);
 
   const handleEditButtonClick = () => {
     setEditButton(true);
-    setFirstName("");
-    setLastName("");
+    setUserName(user?.user?.body?.userName);
   };
 
   const handleEditName = (e) => {
     e.preventDefault();
     const postData = {
-      firstName,
-      lastName,
+      userName,
     };
 
     console.log("Submitting data:", postData);
@@ -33,8 +31,7 @@ const UserGreeting = ({ user }) => {
     dispatch(editUserName(postData, user.token)).then((updatedUserData) => {
       // After successful update, update the local state
       if (updatedUserData && updatedUserData.body) {
-        setFirstName(updatedUserData.firstName);
-        setLastName(updatedUserData.lastName);
+        setUserName(updatedUserData.userName);
       }
     });
     console.log("Name updated successfully!");
@@ -43,35 +40,25 @@ const UserGreeting = ({ user }) => {
   };
 
   const handleCancelEdit = () => {
-    setFirstName(user.user.body.firstName);
-    setLastName(user.user.body.lastName);
+    setUserName(user?.user?.body?.userName);
     setEditButton(false);
   };
-
-  const userName = `${firstName} ${lastName}`;
 
   return (
     <div className="user-greeting">
       <h1>
         Welcome back
         <br />
-        {userName || "Loading..."}!
+        {userName || "Loading.."}!
       </h1>
       {editButton ? (
         <form className="form-edit-name" onSubmit={handleEditName}>
           <input
             className="input-first-name"
             type="text"
-            placeholder="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          <input
-            className="input-last-name"
-            type="text"
-            placeholder="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            placeholder="Username"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
           />
           <div className="button-group">
             <button className="button-save" type="submit">
