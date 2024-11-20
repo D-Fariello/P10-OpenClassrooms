@@ -1,0 +1,218 @@
+swagger: '2.0'
+info:
+  title: Transactions and Authentication API
+  description: API for managing authentication and transactions in a banking system.
+  version: '1.0.0'
+
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+
+paths:
+  /user/login:
+    post:
+      summary: User Login
+      description: Authenticate a user and retrieve a JWT token.
+      parameters:
+        - in: body
+          name: body
+          description: Login credentials
+          required: true
+          schema:
+            $ref: '#/definitions/Login'
+      responses:
+        '200':
+          description: Successfully authenticated
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '400':
+          description: Invalid credentials
+        '500':
+          description: Server error
+
+  /transactions/monthly:
+    get:
+      summary: Get monthly transactions
+      description: Retrieve all transactions for the current month grouped by account.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token for authentication
+          required: true
+          type: string
+        - in: query
+          name: accountId
+          description: Filter transactions by account ID (optional).
+          required: false
+          type: integer
+        - in: query
+          name: month
+          description: Filter by month (e.g., '2024-11').
+          required: false
+          type: string
+      responses:
+        '200':
+          description: List of monthly transactions
+          schema:
+            $ref: '#/definitions/TransactionsResponse'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+
+  /transactions/{transactionId}:
+    get:
+      summary: Get a specific transaction
+      description: Retrieve details of a specific transaction by its ID.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token for authentication
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: The ID of the transaction.
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Transaction details
+          schema:
+            $ref: '#/definitions/Transaction'
+        '404':
+          description: Transaction not found
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+
+    put:
+      summary: Update a transaction
+      description: Update details like category or notes of a specific transaction.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token for authentication
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: The ID of the transaction.
+          required: true
+          type: integer
+        - in: body
+          name: body
+          description: Data to update the transaction.
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionUpdate'
+      responses:
+        '200':
+          description: Transaction updated
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid data
+        '401':
+          description: Unauthorized
+        '404':
+          description: Transaction not found
+        '500':
+          description: Server error
+
+    delete:
+      summary: Remove notes from a transaction
+      description: Clear notes of a specific transaction by its ID.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token for authentication
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: The ID of the transaction.
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Transaction notes cleared successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '404':
+          description: Transaction not found
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+
+definitions:
+  Login:
+    type: object
+    properties:
+      email:
+        type: string
+        description: User email
+      password:
+        type: string
+        description: User password
+
+  LoginResponse:
+    type: object
+    properties:
+      token:
+        type: string
+        description: JWT token
+
+  TransactionsResponse:
+    type: object
+    properties:
+      accounts:
+        type: array
+        items:
+          type: object
+          properties:
+            accountId:
+              type: integer
+            accountName:
+              type: string
+            transactions:
+              type: array
+              items:
+                $ref: '#/definitions/Transaction'
+
+  Transaction:
+    type: object
+    properties:
+      transactionId:
+        type: integer
+      date:
+        type: string
+      description:
+        type: string
+      amount:
+        type: number
+      category:
+        type: string
+      notes:
+        type: string
+
+  TransactionUpdate:
+    type: object
+    properties:
+      category:
+        type: string
+      notes:
+        type: string
+
+  ApiResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
