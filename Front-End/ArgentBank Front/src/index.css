@@ -246,14 +246,32 @@ div#root {
   width: 100%;
 }
 
-.input-first-name {
-  padding: 0.5rem;
-  margin: 5px;
+.div-user-name,
+.div-first-name,
+.div-last-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.input-last-name {
+.label {
+  font-weight: bold;
+  min-width: 100px;
+  text-align: right;
+}
+
+.input-user-name {
   padding: 0.5rem;
   margin: 5px;
+  cursor:text;
+}
+
+.input-disabled-name {
+  border: none;
+    padding: 0.5rem;
+    background: white;
+    margin: 5px;
+    background-color: #c7c7cc;
 }
 
 .button-group {
@@ -339,6 +357,7 @@ div#root {
   color: #fff;
   font-weight: bold;
   padding: 10px;
+  cursor: pointer;
 }
 
 .user-greeting {

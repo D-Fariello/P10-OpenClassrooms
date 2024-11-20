@@ -49,13 +49,39 @@ const UserGreeting = () => {
       </h1>
       {editButton ? (
         <form className="form-edit-name" onSubmit={handleEditName}>
-          <input
-            className="input-first-name"
-            type="text"
-            placeholder="Username"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
+          <div className="div-user-name">
+            <label className="label">Username</label>
+            <input
+              className="input-user-name"
+              type="text"
+              placeholder="Username"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+          </div>
+
+          <div className="div-first-name">
+            <label className="label">First Name</label>
+            <input
+              className="input-disabled-name"
+              type="text"
+              value={user?.user?.body?.firstName || ""}
+              placeholder="First Name"
+              disabled
+            />
+          </div>
+
+          <div className="div-last-name">
+            <label className="label">Last Name</label>
+            <input
+              className="input-disabled-name"
+              type="text"
+              value={user?.user?.body?.lastName || ""}
+              placeholder="First Name"
+              disabled
+            />
+          </div>
+
           <div className="button-group">
             <button className="button-save" type="submit">
               Save
