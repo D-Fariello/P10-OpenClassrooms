@@ -6,6 +6,9 @@ import { logoutUser } from "../../actions/user.actions";
 const Header = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.userReducer.token);
+  const userName = useSelector(
+    (state) => state.userReducer.user?.body?.userName
+  );
 
   const handleLogout = () => {
     // Clear localStorage and dispatch logout
@@ -25,10 +28,16 @@ const Header = () => {
           <h1 className="sr-only">Argent Bank</h1>
         </NavLink>
         {token ? (
-          <button onClick={handleLogout} className="main-nav-item-out">
-            <i className="fa fa-sign-out"></i>
-            Sign Out
-          </button>
+          <div className="main-nav-user-info">
+            <span className="main-nav-userName">
+              <i className="fa fa-user-circle"></i>
+              {userName || "Loading.."}
+            </span>
+            <button onClick={handleLogout} className="main-nav-item-out">
+              <i className="fa fa-sign-out"></i>
+              Sign Out
+            </button>
+          </div>
         ) : (
           <NavLink to="/sign-in" className="main-nav-item">
             <i className="fa fa-user-circle"></i>

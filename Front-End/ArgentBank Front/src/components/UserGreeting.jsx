@@ -4,7 +4,6 @@ import { editUserName } from "../../actions/user.actions";
 
 const UserGreeting = () => {
   const user = useSelector((state) => state.userReducer);
-  console.log(user);
   const [editButton, setEditButton] = useState(false);
   const [userName, setUserName] = useState(user?.user?.body?.userName);
   const dispatch = useDispatch();
@@ -26,15 +25,12 @@ const UserGreeting = () => {
       userName,
     };
 
-    console.log("Submitting data:", postData);
-
     dispatch(editUserName(postData, user.token)).then((updatedUserData) => {
       // After successful update, update the local state
       if (updatedUserData && updatedUserData.body) {
         setUserName(updatedUserData.userName);
       }
     });
-    console.log("Name updated successfully!");
 
     setEditButton(false);
   };

@@ -61,6 +61,11 @@ div#root {
   color: #42b983;
 }
 
+.main-nav-userName {
+  text-decoration: none;
+  margin-right: 2rem;
+}
+
 .main-nav-item {
   text-decoration: none;
   margin-right: 0.5rem;
