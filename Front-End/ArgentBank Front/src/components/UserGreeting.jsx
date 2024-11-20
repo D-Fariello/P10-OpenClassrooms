@@ -4,13 +4,14 @@ import { editUserName } from "../../actions/user.actions";
 
 const UserGreeting = () => {
   const user = useSelector((state) => state.userReducer);
+  console.log(user);
   const [editButton, setEditButton] = useState(false);
-  const [userName, setUserName] = useState(user?.user?.body?.userName);
+  const [userName, setUserName] = useState(user?.user?.body?.userName || "");
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (user?.user?.body?.userName && user?.user?.body?.userName !== userName) {
-      setUserName(user?.user?.body?.userName);
+      setUserName(user?.user?.body?.userName || "");
     }
   }, [user]);
 
@@ -55,7 +56,7 @@ const UserGreeting = () => {
               className="input-user-name"
               type="text"
               placeholder="Username"
-              value={userName}
+              value={userName || ""}
               onChange={(e) => setUserName(e.target.value)}
             />
           </div>

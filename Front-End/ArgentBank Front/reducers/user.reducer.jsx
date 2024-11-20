@@ -7,7 +7,16 @@ import {
 
 const initialState = {
   token: localStorage.getItem("token") || null, // Load from localStorage
-  user: JSON.parse(localStorage.getItem("user")) || null, // Parse stored user
+  user: (() => {
+    const userData = localStorage.getItem("user");
+    // Check if userData is valid (i.e., not null or undefined)
+    try {
+      return userData ? JSON.parse(userData) : null;
+    } catch (error) {
+      console.error("Error parsing user data from localStorage", error);
+      return null;
+    }
+  })(), // Safely parse the user data
 };
 
 export default function userReducer(state = initialState, action) {
