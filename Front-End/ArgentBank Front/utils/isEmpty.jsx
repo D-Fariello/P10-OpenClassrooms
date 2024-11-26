@@ -1,9 +1,4 @@
-//
 //   Check if the value is empty.
-//
-//   @param {*} value - The Value to verify.
-//   @returns {boolean} - Send `true` if the value is Empty, otherwise `false`.
-//
 
 export const isEmpty = (value) => {
   return (
