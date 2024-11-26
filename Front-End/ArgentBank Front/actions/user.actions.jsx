@@ -54,7 +54,7 @@ export const editUserName = (postData, token) => {
       .then((response) => {
         dispatch({
           type: EDIT_USER_NAME,
-          payload: response.data.body,
+          payload: response.data,
         });
       });
   };

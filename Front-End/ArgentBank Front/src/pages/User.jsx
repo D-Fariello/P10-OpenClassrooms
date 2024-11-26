@@ -2,7 +2,7 @@ import React from "react";
 import UserGreeting from "../components/UserGreeting";
 import AccountSection from "../components/AccountSection";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { isEmpty } from "../../utils/isEmpty";
 import { useNavigate } from "react-router-dom";
 import { fetchUserData } from "../../actions/user.actions";

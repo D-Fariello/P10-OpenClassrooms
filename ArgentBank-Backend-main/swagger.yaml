@@ -58,15 +58,21 @@ paths:
         '500':
           description: Internal Server Error
   /user/profile:
-    get:
+    post:
       security:
         - Bearer: []
       tags:
         - User Module
       summary: User Profile API
       description: API for fetching a user profile
-      #produces:
-       # - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+      produces:
+        - application/json
       responses:
         '200':
           description: User profile retrieved successully
@@ -84,6 +90,11 @@ paths:
       summary: User Profile API
       description: API for updating a user profile
       parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
         - in: body
           name: body
           description: Update user profile attributes
@@ -95,6 +106,151 @@ paths:
       responses:
         '200':
           description: User profile retrieved successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /accounts:
+    post:
+      security:
+      - Bearer: []
+      tags:
+      - Transaction module
+      summary: Accounts of user API
+      description: API for fetching all users accounts and transactions of current month
+      parameters:
+      - in: header
+        name: Authorization
+        description: Attach Bearer JWT token
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Users accounts retrieved successully
+          schema:
+            $ref: '#/definitions/Accounts'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /account/transactions:
+    post:
+      security:
+      - Bearer: []
+      tags:
+      - Transaction module
+      summary: Transaction API
+      description: API for fetching all transactions of an specific account
+      parameters:
+      - in: header
+        name: Authorization
+        description: Attach Bearer JWT token
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: transaction informations
+        required: true
+        schema:
+          $ref: '#/definitions/AccountTransactions'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction retrieved successully
+          schema:
+            $ref: '#/definitions/AccountTransactionsResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /account/transaction:
+    post:
+      security:
+      - Bearer: []
+      tags:
+      - Transaction module
+      summary: Transaction API
+      description: API for fetching an specific transaction
+      parameters:
+      - in: header
+        name: Authorization
+        description: Attach Bearer JWT token
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: transaction informations
+        required: true
+        schema:
+          $ref: '#/definitions/Transaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction retrieved successully
+          schema:
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction module
+      summary: Transaction API
+      description: API for updating an specific transaction datas
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update transaction attributes
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionChange'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction Update successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction module
+      summary: Transaction API
+      description: API for delete notes of an specific transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update transaction attributes
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction Notes Delete successully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
@@ -121,9 +277,6 @@ definitions:
       lastName:
         type: string
         description: user last name
-      userName:
-        type: string
-        description: user public name
   Login:
     properties:
       email:
@@ -146,6 +299,118 @@ definitions:
             type: string
           email:
             type: string
+  Accounts:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        items:
+          type: object
+          properties: 
+            accountId:
+              type: integer
+            accountName:
+              type: string
+            amount:
+              type: number
+            transactions:
+              type: array
+              items:
+                type: object
+                properties:
+                  transactionId:
+                    type: integer
+                  date:
+                    type: string
+                  description:
+                    type: string
+                  amount:
+                    type: number
+                  transactionType:
+                    type: string
+                  category:
+                    type: string
+                  notes:
+                    type: string
+  AccountTransactions:
+    type: object
+    properties: 
+      accountId:
+        type: integer
+  AccountTransactionsResponse:
+    type: object
+    properties:
+        status:
+          type: integer
+        message:
+          type: string
+        body:
+          type: object
+          properties: 
+            accountId:
+              type: integer
+            accountName:
+              type: string
+            amount:
+              type: number
+            transactions:
+              type: array
+              items:
+                type: object
+                properties:
+                  transactionId:
+                    type: integer
+                  date:
+                    type: string
+                  description:
+                    type: string
+                  amount:
+                    type: number
+                  transactionType:
+                    type: string
+                  category:
+                    type: string
+                  notes:
+                    type: string
+  TransactionResponse:
+    type: object
+    properties:
+      transactionId:
+        type: integer
+      date:
+        type: string
+      description:
+        type: string
+      amount:
+        type: number
+      transactionType:
+        type: string
+      category:
+        type: string
+      notes:
+        type: string
+  Transaction:
+    type: object
+    properties: 
+      accountId:
+        type: integer
+      transactionId:
+        type: integer
+  TransactionChange:
+    type: object
+    properties:
+      accountId:
+        type: integer
+      transactionId:
+        type: integer
+      category:
+        type: string
+      notes:
+        type: string
   LoginResponse:
     type: object
     properties:
@@ -154,5 +419,7 @@ definitions:
   UserProfile:
     type: object
     properties:
-      userName:
+      firstName:
+        type: string
+      lastName:
         type: string
