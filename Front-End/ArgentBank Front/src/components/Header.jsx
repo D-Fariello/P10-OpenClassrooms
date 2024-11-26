@@ -11,15 +11,24 @@ const Header = () => {
   );
 
   const handleLogout = () => {
-    // Clear localStorage and dispatch logout
-    localStorage.clear();
+    // Takes off the user data
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    // Dispatch to update Redux
     dispatch(logoutUser());
   };
 
   return (
     <header>
       <nav className="main-nav">
-        <NavLink to="/" className="main-nav-logo">
+        <NavLink
+          to="/"
+          className="main-nav-logo"
+          onClick={() => {
+            handleLogout();
+          }}
+        >
           <img
             src="./img/argentBankLogo.png"
             alt="Argent Bank Logo"
