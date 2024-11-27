@@ -1,10 +1,11 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../actions/user.actions";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const token = useSelector((state) => state.userReducer.token);
   const userName = useSelector(
     (state) => state.userReducer.user?.body?.userName
@@ -17,6 +18,10 @@ const Header = () => {
 
     // Dispatch to update Redux
     dispatch(logoutUser());
+  };
+
+  const handleProfileClick = () => {
+    navigate("/user");
   };
 
   return (
@@ -38,7 +43,7 @@ const Header = () => {
         </NavLink>
         {token ? (
           <div className="main-nav-user-info">
-            <span className="main-nav-userName">
+            <span className="main-nav-userName" onClick={handleProfileClick}>
               <i className="fa fa-user-circle"></i>
               {userName || "Loading.."}
             </span>
