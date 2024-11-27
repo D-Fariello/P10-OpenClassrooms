@@ -6,17 +6,16 @@ import {
 } from "../actions/user.actions";
 
 const initialState = {
-  token: localStorage.getItem("token") || null, // Load from localStorage
+  token: sessionStorage.getItem("token") || null, // Load from sessionStorage
   user: (() => {
-    const userData = localStorage.getItem("user");
-    // Check if userData is valid (i.e., not null or undefined)
+    const userData = sessionStorage.getItem("user");
     try {
       return userData ? JSON.parse(userData) : null;
     } catch (error) {
-      console.error("Error parsing user data from localStorage", error);
+      console.error("Error parsing user data from sessionStorage", error);
       return null;
     }
-  })(), // Safely parse the user data
+  })(),
 };
 
 export default function userReducer(state = initialState, action) {

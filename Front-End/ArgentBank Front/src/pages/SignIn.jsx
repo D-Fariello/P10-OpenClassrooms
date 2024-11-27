@@ -31,14 +31,11 @@ const SignIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const postData = {
-      email,
-      password,
-    };
+    const postData = { email, password };
 
     // Handle saving to localStorage if "Remember Me" is checked
     if (isChecked) {
-      localStorage.setItem("rememberMe", JSON.stringify(postData));
+      localStorage.setItem("rememberMe", JSON.stringify(postData)); // Store email/password
     } else {
       localStorage.removeItem("rememberMe");
     }
@@ -47,12 +44,16 @@ const SignIn = () => {
     dispatch(fetchToken(postData))
       .then((token) => {
         if (token) {
+          // Store the token in sessionStorage
+          sessionStorage.setItem("token", token);
           return dispatch(fetchUserData(token));
         } else {
-          throw new Error("Token non valido");
+          throw new Error("Invalid Token");
         }
       })
-      .then(() => {
+      .then((userData) => {
+        // Store the user data in sessionStorage
+        sessionStorage.setItem("user", JSON.stringify(userData));
         navigate("/user");
       })
       .catch((error) => {
