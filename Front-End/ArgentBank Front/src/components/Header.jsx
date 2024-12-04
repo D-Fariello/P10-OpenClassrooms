@@ -35,7 +35,7 @@ const Header = () => {
           }}
         >
           <img
-            src="./img/argentBankLogo.png"
+            src="./img/argentBankLogo.avif"
             alt="Argent Bank Logo"
             className="main-nav-logo-image"
           />
